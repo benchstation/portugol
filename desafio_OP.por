@@ -1,11 +1,28 @@
 programa {
+
+  // Variável global
+  inteiro pontos = 0
+
+  funcao proximaIlha(pontos) {
+    pontos++
+    escreva("Parabéns! Você ganhou 1 ponto e avança para a próxima ilha.\n")
+    escreva("Total de pontos: ", pontos)
+    escreva("\n\n")
+  }
+
+  funcao retorneIlha(pontos) {
+    pontos--
+    escreva("Incorreto... Você perdeu 1 ponto e retrocedeu pra ilha anterior.\n")
+    escreva("Total de pontos: ", pontos)
+    escreva("\n\n")
+  }
+
   //Nesse jogo baseado no universo de One Piece, cada ilha possui um enigma sobre algum personagem.
-  //Para vencer o jogo o usuÃ¡rio deve responder todos os enigmas.
-  //A cada resposta correta o usuÃ¡rio avanÃ§a uma ilha e ganha um ponto.
-  //A cada resposta errada o usuÃ¡rio retrocede uma ilha e perde um ponto.
-  //Cada ilha possui 2 perguntas, caso erre e retroceda, a segunda pergunta serÃ¡ feita.
-  funcao ilhaQuiz(cadeia nome, cadeia pergunta1, cadeia pergunta2) { //inteiro pontosAcumulados
-    inteiro pontos = 0
+  //Para vencer o jogo o usuário deve responder todos os enigmas.
+  //A cada resposta correta o usuário avança uma ilha e ganha um ponto.
+  //A cada resposta errada o usuário retrocede uma ilha e perde um ponto.
+  //Cada ilha possui 2 perguntas, caso erre e retroceda, a segunda pergunta será feita.
+  funcao ilhaQuiz(cadeia nome, cadeia pergunta, inteiro qualPergunta) {
     logico acertou = falso
     cadeia resposta, gabarito1 = "", gabarito2 = ""
     se (nome == "ALABASTA") {
@@ -21,49 +38,64 @@ programa {
       gabarito2 = "Hiriluk" //ou "hiriluk"
     }
 
-    escreva("Bem vindo a ILHA DE ", nome, "! Acerte ao menos uma pergunta para passar para a prÃ³xima ilha.\n")
-    escreva("PERGUNTA 1: ", pergunta1)
+    escreva("Bem vindo a ILHA DE ", nome, "! Acerte ao menos uma pergunta para passar para a próxima ilha.\n")
+    se (qualPergunta == 1) {
+      escreva("PERGUNTA 1: ", pergunta)
+    }
+    senao se (qualPergunta == 2) {
+      escreva("PERGUNTA 2: ", pergunta)
+    }
+    senao {
+      escreva("Você não definiu o número da pergunta.")
+    }
+
     leia(resposta)
-
-    se (resposta == gabarito1) {
-      pontos++
-      acertou = verdadeiro
+    se (qualPergunta == 1) {
+      se (resposta == gabarito1) {
+        acertou = verdadeiro
+      }
     }
-    se (acertou == falso) {
-      escreva("Errado. Tente com outra pergunta.\n")
-      escreva("PERGUNTA 2: ", pergunta2)
-      leia(resposta)
-        se (resposta == gabarito2) {
-          pontos++
-          acertou = verdadeiro
-        } senao {
-          pontos--
-          escreva("VocÃª retornou a 0 pontos e perdeu!\n")
-        }
-    }
-    se (acertou == verdadeiro) {
-      escreva("ParabÃ©ns! VocÃª ganhou 1 ponto e avanÃ§a para a prÃ³xima ilha.\n")
-      escreva("Total de pontos: ", pontos)
-      escreva("\n\n")
+    senao se (qualPergunta == 2) {
+      se (resposta == gabarito2) {
+        acertou = verdadeiro
+      }
     }
 
-    pontosAcumulados = pontos
+    se (nome == "ALABASTA") {
+     se (acertou == verdadeiro) {
+      proximaIlha(pontos)
+      ilhaQuiz("SKYPIEA", "Qual a especialidade de Usopp?\n", 1)
+      }
+      senao {
+        escreva("Você retornou a 0 pontos e perdeu!\n")
+      }
+    }
+    senao se (nome == "SKYPIEA") {
+     se (acertou == verdadeiro) {
+      proximaIlha(pontos)
+      ilhaQuiz("ENIES LOBBY", "Qual o nome da irmã da Nami?\n", 1)
+      }
+      senao {
+        retorneIlha(pontos)
+        ilhaQuiz("ALABASTA", "Qual o nome da falecida amiga de Zoro?\n", 2)
+      }
+    }
+    senao se (nome == "ENIES LOBBY") {
+      se (acertou == verdadeiro) {
+        escreva("Parabéns! Você superou o desafio com um total de ", pontos, " pontos e agora poderá se tornar o Rei dos Piratas!")
+      }
+      senao {
+        retorneIlha(pontos)
+        ilhaQuiz("SKYPIEA","Qual o nome do verdadeiro pai de Sanji?\n", 2)
+      }
+
+    }
     retorne acertou
   }
 
   funcao inicio() {
-    logico concluiIlha1, concluiIlha2, concluiIlha3
 
-    concluiIlha1 = ilhaQuiz("ALABASTA", "Qual o nome do avÃ´ do Luffy?\n", "Qual o nome da falecida amiga de Zoro?\n")
-    se (concluiIlha1 == verdadeiro) {
-      concluiIlha2 = ilhaQuiz("SKYPIEA", "Qual a especialidade de Ussopp?\n", "Qual o nome do verdadeiro pai de Sanji?\n")
-      
-      se (concluiIlha2 == verdadeiro) {
-        concluiIlha3 = ilhaQuiz("ENIES LOBBY", "Qual o nome da irmÃ£ da Nami?\n", "Qual o nome do pai de Chopper?\n")
-      }
-    }
-    se (concluiIlha3 == verdadeiro) {
-      escreva("ParabÃ©ns! VocÃª superou o desafio e agora poderÃ¡ se tornar o Rei dos Piratas!")
-    }
+    ilhaQuiz("ALABASTA", "Qual o nome do avô do Luffy?\n", 1)
+  
   }
 }
