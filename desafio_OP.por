@@ -26,16 +26,16 @@ programa {
     logico acertou = falso
     cadeia resposta, gabarito1 = "", gabarito2 = ""
     se (nome == "ALABASTA") {
-      gabarito1 = "Garp" //ou "garp"
-      gabarito2 = "Kuina" //ou "kuina"
+      gabarito1 = "Garp"
+      gabarito2 = "Kuina"
     }
     senao se (nome == "SKYPIEA") {
-      gabarito1 = "Mentir" //ou "mentir"
-      gabarito2 = "Zeff" //ou "zeff"
+      gabarito1 = "Mentir"
+      gabarito2 = "Zeff"
     }
     senao se (nome == "ENIES LOBBY") {
-      gabarito1 = "Nojiko" //ou "nojiko"
-      gabarito2 = "Hiriluk" //ou "hiriluk"
+      gabarito1 = "Nojiko"
+      gabarito2 = "Hiriluk"
     }
 
     escreva("Bem vindo a ILHA DE ", nome, "! Acerte ao menos uma pergunta para passar para a próxima ilha.\n")
